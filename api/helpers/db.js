@@ -23,10 +23,23 @@ function findDocument(filter, callback) {
     skip = filter.begin;
     limit = filter.end - filter.begin + 1;
   }
+  var myfilter = {};
+  if (filter.queryString) {
+    myfilter.information = myfilter.service
+      = myfilter.philosophy = myfilter.name = { $regex: filter.queryString };
+    myfilter = {
+      $or: [
+        { name: { $regex: filter.queryString } },
+        { information: { $regex: filter.queryString }},
+        {service: { $regex: filter.queryString }},
+        {philosophy: { $regex: filter.queryString }}
+      ]
+    }
+  }
 
-  db.collection(col).find({
-    name: { $regex: filter.queryString || '' },
-  }).skip(skip)
+  db.collection(col)
+    .find(myfilter)
+    .skip(skip)
     .limit(limit)
     .toArray(function (err, docs) {
       if (err) console.log(err);
