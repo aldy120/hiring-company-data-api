@@ -1,4 +1,5 @@
 # Company API
+## Interface
 | Resource    | Method | Function               | URL                         | Param       |
 |-------------|--------|------------------------|-----------------------------|-------------|
 | ConpanyInfo | POST   | 新增公司資訊           | /company                    | Company     |
@@ -13,4 +14,10 @@
 | Tag         | GET    | 取得單一標籤資訊       | /company/tag/{tag_id}       | tag_id      |
 | Area        | GET    | 取得鄉鎮市區資料       | /company/area               |             |
 | Category    | GET    | 取得產業分類資料       | /company/category           |             |
+
 see [swagger hub](https://swaggerhub.com/apis/lichi.chen/hiring-company_data_api/0.0.1)
+
+## Database
+目前資料集為104找公司前500頁公司資料(約15000家)，儲存於Mongo atlas的Free tier資料庫中。
+104上目前現有公司資料約30000家。
+

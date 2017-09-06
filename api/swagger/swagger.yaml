@@ -187,7 +187,9 @@ paths:
           schema: 
             $ref: "#/definitions/ErrorResponse"
   /company/area:
+    x-swagger-router-controller: area
     get:
+      operationId: findArea
       description: get all area data
       responses:
         "200":
@@ -198,8 +200,10 @@ paths:
           description: Error
           schema: 
             $ref: "#/definitions/ErrorResponse"
-  /company/category:
+  /company/industry:
+    x-swagger-router-controller: industry
     get:
+      operationId: findIndustry
       description: get all category data
       responses:
         "200":
@@ -235,7 +239,11 @@ definitions:
     type: object
     properties:
       queryString:
+        description: 關鍵詞
         type: string
+      fuzzy: 
+        description: 是否自動查詢information, service, welfare, philosophy中有無queryString
+        type: boolean
       begin:
         type: integer
       end:
@@ -244,13 +252,22 @@ definitions:
         type: string
       industry:
         type: string
+      employeeLowerBound:
+        type: integer
+      employeeUpperBound:
+        type: integer
+      capitalLowerBound:
+        type: integer
+      capitalUpperBound:
+        type: integer
+      information:
+        type: string
+      service:
+        type: string
       welfare:
         type: string
-      employee:
+      philosophy:
         type: string
-      capital:
-        type: string
-      
   TagList:
     type: array
     items:
@@ -282,10 +299,10 @@ definitions:
         type: string
       employee:
         description: 員工人數
-        type: string
+        type: integer
       capital:
         description: 資本額
-        type: string
+        type: integer
       contact:
         description: 聯絡人
         type: string
