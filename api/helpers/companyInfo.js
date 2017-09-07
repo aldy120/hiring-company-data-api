@@ -30,15 +30,15 @@ function findDocument(filter, callback) {
     if (filter.fuzzy) {
       myfilter = {
         $or: [
-          { name: { $regex: filter.queryString } },
-          { information: { $regex: filter.queryString }},
-          {service: { $regex: filter.queryString }},
-          {philosophy: { $regex: filter.queryString }}
+          { name: { $regex: escapeRegexp(escapeRegexp(filter.queryString)) } },
+          { information: { $regex: escapeRegexp(filter.queryString) } },
+          { service: { $regex: escapeRegexp(filter.queryString) } },
+          { philosophy: { $regex: escapeRegexp(filter.queryString) } }
         ],
       }
     } else {
       myfilter = {
-        name: { $regex: filter.queryString }
+        name: { $regex: escapeRegexp(filter.queryString) }
       }
     }
   }
@@ -61,11 +61,27 @@ function findDocument(filter, callback) {
 
   // information service welfare philosophy
   'information service welfare philosophy'.split(' ')
-    .forEach(function(field) {
+    .forEach(function (field) {
       if (filter[field]) {
-        myfilter[field] = {$regex: filter[field]}
+        myfilter[field] = { $regex: escapeRegexp(filter[field]) }
       }
     });
+
+  // area
+  if (filter.area) {
+    myfilter['profile.address'] = {
+      $regex: escapeRegexp(filter.area)
+    };
+  }
+
+  // industry
+  if (filter.industry) {
+    myfilter['profile.industry'] = {
+      $regex: escapeRegexp(filter.industry)
+    };
+  }
+  
+  // send query
   db.collection(col)
     .find(myfilter)
     .skip(skip)
@@ -75,6 +91,10 @@ function findDocument(filter, callback) {
       assert.equal(null, err);
       callback(docs);
     });
+
+  function escapeRegexp(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  }
 }
 
 module.exports = {
