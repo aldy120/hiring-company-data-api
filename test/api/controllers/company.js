@@ -99,6 +99,23 @@ describe('inbound', function () {
           done();
         });
     });
+    it('expect 200', function(done) {
+      request(server)
+        .post('/company/filter')
+        .set('Accept', 'application/json')
+        .send({
+          "queryString": "帥哥",
+          "fuzzy": true,
+          "area": "大安區",
+          "industry": "餐館業"
+        }).expect(200)
+        .end(function(err, res) {
+          assert.equal(/大安區/.test(res.body[0].profile.address), true);
+          assert.equal(/餐館業/.test(res.body[0].profile.industry), true);
+          done();
+        })
+    });
+    
   })
 
 });
