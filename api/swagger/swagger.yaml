@@ -60,7 +60,9 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /company/{_id}:
+    x-swagger-router-controller: company
     get:
+      operationId: findOneById
       description: return a company data by id
       parameters:
         - name: _id
@@ -78,6 +80,7 @@ paths:
           schema: 
             $ref: "#/definitions/ErrorResponse"
     put:
+      operationId: updateOneById
       description: update a company data by id
       parameters: 
         - $ref: "#/parameters/_id"
@@ -97,6 +100,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     delete:
+      operationId: deleteOneById
       description: delete a company data by id
       parameters:
         - $ref: "#/parameters/_id"
@@ -327,8 +331,6 @@ definitions:
       $ref: "#/definitions/Company"
   Company:
     type: object
-    required: 
-      - name
     properties:
       name: 
         description: 公司名稱
