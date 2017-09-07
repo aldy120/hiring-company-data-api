@@ -3,13 +3,12 @@ var mongoUtil = require('./mongoUtil');
 
 var db;
 var col;
-function insertDocument(document, callback) {
+function insertDocument(document) {
   db = mongoUtil.getDb();
   col = 'companyInfo';
   db.collection(col).insertOne(document, function (err, r) {
     assert.equal(null, err);
     assert.equal(1, r.insertedCount);
-    callback();
   });
 }
 function findDocuments(filter, callback) {
@@ -96,8 +95,38 @@ function findDocuments(filter, callback) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
   }
 }
-
+function findOneDocument(id, callback) {
+  var db = mongoUtil.getDb();
+  var col = db.collection('companyInfo');
+  col.findOne({_id: id}, function(err, doc) {
+    assert.equal(null, err);
+    callback(doc);
+  })
+}
+function updateOneDocument(id, update, callback) {
+  var db = mongoUtil.getDb();
+  var col = db.collection('companyInfo');
+  col.findOneAndUpdate({_id: id}, {
+    $set: update
+  }, {
+    returnOriginal: false
+  }, function(err, result) {
+    assert.equal(null, err);
+    callback(result.value);
+  });
+}
+function deleteOneDocument(id, callback) {
+  var db = mongoUtil.getDb();
+  var col = db.collection('companyInfo');
+  col.findOneAndDelete({_id: id}, function(err, result) {
+    assert.equal(null, err);
+    callback(result.value);
+  })
+}
 module.exports = {
   insertDocument,
-  findDocument
+  findDocuments, 
+  findOneDocument,
+  updateOneDocument,
+  deleteOneDocument
 }
