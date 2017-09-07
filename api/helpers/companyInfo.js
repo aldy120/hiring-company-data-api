@@ -12,7 +12,7 @@ function insertDocument(document, callback) {
     callback();
   });
 }
-function findDocument(filter, callback) {
+function findDocuments(filter, callback) {
   db = mongoUtil.getDb();
   col = 'companyInfo';
 

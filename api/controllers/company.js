@@ -7,7 +7,7 @@ function insertOne(req, res) {
 }
 function find(req, res) {
   var filter = req.swagger.params.body.value;
-  companyInfo.findDocument(filter, function(doc) {
+  companyInfo.findDocuments(filter, function(doc) {
     res.json(doc);
   });
 }
