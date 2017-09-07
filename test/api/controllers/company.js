@@ -5,7 +5,7 @@ var assert = require('assert');
 
 describe('inbound', function () {
   this.timeout(10000);
-  describe('post /company/filter', function () {
+  describe('/company/filter', function () {
     it('expect 200', function (done) {
       this.timeout(10000);
       setTimeout(() => {
@@ -30,7 +30,7 @@ describe('inbound', function () {
           "end": 2
         })
         .expect(200)
-        .end(function(err, res) {
+        .end(function (err, res) {
           if (err) {
             done(err);
           }
@@ -44,7 +44,7 @@ describe('inbound', function () {
         .set('Accept', 'application/json')
         .send({})
         .expect(200)
-        .end(function(err, res) {
+        .end(function (err, res) {
           if (err) {
             done(err);
           }
@@ -52,7 +52,7 @@ describe('inbound', function () {
           done();
         });
     })
-    it('expect 200', function(done) {
+    it('expect 200', function (done) {
       request(server)
         .post('/company/filter')
         .set('Accept', 'application/json')
@@ -60,7 +60,7 @@ describe('inbound', function () {
           capitalLowerBound: 1000000,
           capitalUpperBound: 1000000
         }).expect(200)
-        .end(function(err, res) {
+        .end(function (err, res) {
           if (err) {
             done(err);
           }
@@ -68,7 +68,7 @@ describe('inbound', function () {
           done();
         });
     });
-    it('expect 200', function(done) {
+    it('expect 200', function (done) {
       request(server)
         .post('/company/filter')
         .set('Accept', 'application/json')
@@ -76,7 +76,7 @@ describe('inbound', function () {
           employeeLowerBound: 100,
           employeeUpperBound: 100
         }).expect(200)
-        .end(function(err, res) {
+        .end(function (err, res) {
           if (err) {
             done(err);
           }
@@ -84,14 +84,14 @@ describe('inbound', function () {
           done();
         });
     });
-    it('expect 200', function(done) {
+    it('expect 200', function (done) {
       request(server)
         .post('/company/filter')
         .set('Accept', 'application/json')
         .send({
           "queryString": "愛力皮包實業有限公司"
         }).expect(200)
-        .end(function(err, res) {
+        .end(function (err, res) {
           if (err) {
             done(err);
           }
@@ -99,7 +99,7 @@ describe('inbound', function () {
           done();
         });
     });
-    it('expect 200', function(done) {
+    it('expect 200', function (done) {
       request(server)
         .post('/company/filter')
         .set('Accept', 'application/json')
@@ -109,13 +109,63 @@ describe('inbound', function () {
           "area": "大安區",
           "industry": "餐館業"
         }).expect(200)
-        .end(function(err, res) {
+        .end(function (err, res) {
           assert.equal(/大安區/.test(res.body[0].profile.address), true);
           assert.equal(/餐館業/.test(res.body[0].profile.industry), true);
           done();
         })
     });
-    
+    describe('CRUD a cpmpany', function () {
+      var id;
+      it('POST /company', function (done) {
+        request(server).post('/company')
+          .set('Accept', 'application/json')
+          .send({
+            "name": "myTestCompany"
+          }).expect(200)
+          .end(function(err, res) {
+            assert.equal(null, err);
+            assert.equal(res.body.name, 'myTestCompany');
+            id = res.body._id;
+            done();
+          })
+      });
+      it('GET /company/{_id}', function(done) {
+        request(server)
+          .get('/company/' + id)
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            assert.equal(null, err);
+            assert.equal(res.body.name, 'myTestCompany');
+            done();
+          })
+      });
+      it('PUT /company/{_id}', function(done) {
+        request(server)
+          .put('/company/' + id)
+          .set('Accept', 'application/json')
+          .send({
+            name: 'modifiedTestCompany'
+          }).expect(200)
+          .end(function(err, res) {
+            assert.equal(err, null);
+            assert.equal(res.body.name, 'modifiedTestCompany');
+            done();
+          });
+      });
+      it('DELETE /company/{_id}', function(done) {
+        request(server)
+          .delete('/company/' + id)
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            assert.equal(null, err);
+            assert.equal(res.body.name, 'modifiedTestCompany');
+            done();
+          });
+      });
+    })
   })
 
 });
