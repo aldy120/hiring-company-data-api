@@ -18,6 +18,5 @@
 see [swagger hub](https://swaggerhub.com/apis/lichi.chen/hiring-company_data_api/0.0.1)
 
 ## Database
-目前資料集為104找公司前500頁公司資料(約15000家)，儲存於Mongo atlas的Free tier資料庫中。
-104上目前現有公司資料約30000家。
+目前資料集為104找公司網路上人人可見的現有公司資料(約30000家)，儲存於Mongo atlas的Free tier資料庫中。
 
