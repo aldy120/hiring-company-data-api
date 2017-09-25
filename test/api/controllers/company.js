@@ -18,7 +18,7 @@ describe('inbound', function () {
             "end": 2
           })
           .expect(200, done);
-      }, 3000);
+      }, 5000);
     });
     it('expect 200', function (done) {
       request(server)
@@ -167,5 +167,96 @@ describe('inbound', function () {
       });
     })
   })
-
 });
+
+describe('Outbound', function() {
+  describe('POST /company/filter', function() {
+    it('begin is greater than end', function(done) {
+      request(server)
+        .post('/company/filter')
+        .set('Accept', 'application/json')
+        .send({
+          begin: 3,
+          end: 2
+        })
+        .expect(400, done);
+    });
+    it('capitalLowerBound is greater than capitalUpperBound', function(done) {
+      request(server)
+        .post('/company/filter')
+        .set('Accept', 'application/json')
+        .send({
+          capitalLowerBound: 4,
+          capitalUpperBound: 3
+        })
+        .expect(400, done);
+    });
+    it('employeeLowerBound is greater than empolyeeUpperBound', function(done) {
+      request(server)
+        .post('/company/filter')
+        .set('Accept', 'application/json')
+        .send({
+          employeeLowerBound: 5,
+          employeeUpperBound: 3
+        })
+        .expect(400, done);
+    })
+  });
+  describe('GET /company/{_id}', function() {
+    it('invalid mongo objectID', function(done) {
+      var _id = '1234'
+      request(server)
+        .get('/company/' + _id)
+        .set('Accept', 'application/json')
+        .expect(400, done)
+    });
+    it('non-exist mongo objectID', function(done) {
+      var _id = '123456781234567812345678';
+      request(server)
+        .get('/company/' + _id)
+        .set('Accept', 'application/json')
+        .expect(404, done)
+    });
+  });
+  describe('PUT /company/{_id}', function(done) {
+    it('invalid mongo objectID', function(done) {
+      var _id = '1234'
+      request(server)
+        .put('/company/' + _id)
+        .set('Accept', 'application/json')
+        .expect(400, done)
+    });
+    it('non-exist mongo objectID', function(done) {
+      var _id = '123456781234567812345678';
+      request(server)
+        .put('/company/' + _id)
+        .set('Accept', 'application/json')
+        .send({name: 'hi'})
+        .expect(404, done)
+    });
+    it('<update> is empty object', function(done) {
+      var _id = '123456781234567812345678';
+      request(server)
+        .put('/company/' + _id)
+        .set('Accept', 'application/json')
+        .send({})
+        .expect(400, done)
+    });
+  })
+  describe('DELETE /company/{_id}', function() {
+    it('invalid mongo objectID', function(done) {
+      var _id = '1234'
+      request(server)
+        .delete('/company/' + _id)
+        .set('Accept', 'application/json')
+        .expect(400, done)
+    });
+    it('non-exist mongo objectID', function(done) {
+      var _id = '123456781234567812345678';
+      request(server)
+        .delete('/company/' + _id)
+        .set('Accept', 'application/json')
+        .expect(200, done)
+    });
+  })
+})

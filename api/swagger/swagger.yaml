@@ -110,7 +110,9 @@ paths:
           schema:
             $ref: "#/definitions/Company"
   /company/{_id}/tag:
+    x-swagger-router-controller: tag
     post:
+      operationId: createTag
       description: add a tag
       parameters: 
         - $ref: "#/parameters/_id"
@@ -121,7 +123,7 @@ paths:
           schema:
             type: object
             properties:
-              tagName:
+              name:
                 type: string
                   
       responses: 
@@ -134,6 +136,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     get:
+      operationId: findTags
       description: get a tag list
       parameters:
         - $ref: "#/parameters/_id"
@@ -275,12 +278,17 @@ definitions:
   TagList:
     type: array
     items:
-      $ref: "#/definitions/Tag"
+      type: object
+      properties: 
+        _id:
+          type: string
+        name: 
+          type: string
   Tag: 
     type: object
     description: a tag for some company
     properties:
-      tagName:
+      name:
         type: string
       companyList:
         type: array
