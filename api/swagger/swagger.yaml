@@ -150,7 +150,9 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /company/{_id}/tag/{tag_id}:
+    x-swagger-router-controller: tag
     delete:
+      operationId: removeOneTag
       description: remove a tag from a company
       parameters:
         - $ref: "#/parameters/_id"
@@ -159,7 +161,7 @@ paths:
         "200": 
           description: Success
           schema:
-            $ref: "#/definitions/TagList"
+            $ref: "#/definitions/Company"
         default:
           description: Error
           schema: 
@@ -370,6 +372,11 @@ definitions:
               type: string
             description: 
               type: string
+      tags:
+        type: array
+        description: 標籤(內含對應標籤的 ObjectID )
+        items:
+          type: string
   CompanyResponse:
     type: object
     properties:

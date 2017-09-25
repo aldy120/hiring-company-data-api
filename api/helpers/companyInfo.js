@@ -148,6 +148,19 @@ function lookupTags(companyID, callback) {
     callback(result);
   })
 }
+
+function removeOneTag(companyID, tagID, callback) {
+  var db = mongoUtil.getDb();
+  db.collection('companyInfo').findOneAndUpdate({_id: companyID}, {
+    $pull: {tags: tagID}
+  }, {
+    returnOriginal: false
+  }, function(err, r) {
+    assert.equal(null, err);
+    callback(r.value);
+  });
+}
+
 module.exports = {
   insertDocument,
   findDocuments, 
@@ -155,5 +168,6 @@ module.exports = {
   updateOneDocument,
   deleteOneDocument,
   addToTags,
-  lookupTags
+  lookupTags,
+  removeOneTag
 }

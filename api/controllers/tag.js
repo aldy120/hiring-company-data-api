@@ -55,10 +55,30 @@ function findTags(req, res) {
       res.json(docs.map(doc => doc.tag_docs[0]));
     })
   })
-  
+}
+
+function removeOneTag(req, res) {
+  var companyID = req.swagger.params._id.value;
+  var tagID = req.swagger.params.tag_id.value;
+  if (!isMongoID(companyID)) {
+    res.status(400).json({message: 'companyID is not a valid mongodb objectID'});
+    return;
+  }
+  if (!isMongoID(tagID)) {
+    res.status(400).json({message: 'tagID is not a valid mongodb objectID'});
+    return;
+  }
+  companyInfo.removeOneTag(new ObjectID(companyID), new ObjectID(tagID), function(doc) {
+    if (!doc) {
+      res.status(404).json({message: 'company not found'});
+      return;
+    }
+    res.json(doc);
+  })
 }
 
 module.exports = {
   createTag,
-  findTags
+  findTags,
+  removeOneTag
 }
