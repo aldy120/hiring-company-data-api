@@ -20,3 +20,22 @@ see [swagger hub](https://swaggerhub.com/apis/lichi.chen/hiring-company_data_api
 ## Database
 目前資料集為104找公司網路上人人可見的現有公司資料(約30000家)，儲存於Mongo atlas的Free tier資料庫中。
 
+## Getting Started
+1. Install swagger-node
+```
+npm i -g swagger
+```
+
+2. Install dependencies
+```
+npm i 
+```
+
+3. Run server
+```
+swagger project start
+```
+## Testing
+```
+npm test
+```
