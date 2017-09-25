@@ -123,10 +123,37 @@ function deleteOneDocument(id, callback) {
     callback(result.value);
   })
 }
+
+function addToTags(companyID, tagID, callback) {
+  var db = mongoUtil.getDb();
+  db.collection('companyInfo').findOneAndUpdate({_id: companyID}, {$addToSet: {tags: tagID}}, {returnOriginal: false}, function(err, r) {
+    callback(r);
+  })
+}
+
+function lookupTags(companyID, callback) {
+  var db = mongoUtil.getDb();
+  
+  db.collection('companyInfo').aggregate([
+    {$match: {_id: companyID}}, 
+    {$project: {tags: 1, _id: 0}},
+    {$unwind: '$tags'},
+    {$lookup: {
+      from: 'tag',
+      localField: 'tags',
+      foreignField: '_id',
+      as: 'tag_docs'
+    }}
+  ], function(err, result) {
+    callback(result);
+  })
+}
 module.exports = {
   insertDocument,
   findDocuments, 
   findOneDocument,
   updateOneDocument,
-  deleteOneDocument
+  deleteOneDocument,
+  addToTags,
+  lookupTags
 }
