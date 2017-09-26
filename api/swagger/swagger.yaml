@@ -137,7 +137,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     get:
       operationId: findTags
-      description: get a tag list
+      description: get a tag list from a company
       parameters:
         - $ref: "#/parameters/_id"
       responses:
@@ -167,7 +167,9 @@ paths:
           schema: 
             $ref: "#/definitions/ErrorResponse"
   /company/tag:
+    x-swagger-router-controller: tag
     get:
+      operationId: findAllTags
       description: list all tags
       responses:
         "200":
@@ -179,7 +181,9 @@ paths:
           schema: 
             $ref: "#/definitions/ErrorResponse"
   /company/tag/{tag_id}:
+    x-swagger-router-controller: tag
     get:
+      operationId: findCompaniesByTag
       description: get a list of company by tag
       parameters:
         - $ref: "#/parameters/tag_id"
@@ -187,10 +191,7 @@ paths:
         "200": 
           description: Success
           schema:
-            type: array
-            items:
-              description: company id
-              type: string
+            $ref: "#/definitions/CompanyList"
         default: 
           description: Error
           schema: 

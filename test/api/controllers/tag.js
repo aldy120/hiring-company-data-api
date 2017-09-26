@@ -89,4 +89,32 @@ describe('DELETE /company/{_id}/tag/{tag_id}', function() {
       .set('Accept', 'application/json')
       .expect(200, done);
   });
+});
+describe('GET /company/tag', function() {
+  it('get all tags', function(done) {
+    request(server)
+      .get('/company/tag')
+      .set('Accept', 'application/json')
+      .expect(200, done);
+  });
+});
+describe('GET /company/tag/{tag_id}', function() {
+  it('find company by id', function(done) {
+    request(server)
+      .get('/company/tag/' + tagID)
+      .set('Accept', 'application/json')
+      .expect(200, done);
+  });
+  it('invalid tagID', function(done) {
+    request(server)
+      .get('/company/tag' + '12345678')
+      .set('Accept', 'application/json')
+      .expect(400, done);
+  });
+  it('nonexistent mangoID', function(done) {
+    request(server)
+      .get('/company/tag/' + nonExistId)
+      .set('Accept', 'application/json')
+      .expect(200, done);
+  })
 })

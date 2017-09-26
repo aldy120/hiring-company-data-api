@@ -161,6 +161,17 @@ function removeOneTag(companyID, tagID, callback) {
   });
 }
 
+function findDocumentsByTagID(tagID, callback) {
+  var db = mongoUtil.getDb();
+  var filter = {
+    tags: tagID
+  }
+  db.collection('companyInfo').find(filter).toArray(function(err, list) {
+    assert.equal(null, err);
+    callback(list)
+  })
+}
+
 module.exports = {
   insertDocument,
   findDocuments, 
@@ -169,5 +180,6 @@ module.exports = {
   deleteOneDocument,
   addToTags,
   lookupTags,
-  removeOneTag
+  removeOneTag,
+  findDocumentsByTagID
 }

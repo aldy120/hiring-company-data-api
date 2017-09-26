@@ -17,7 +17,16 @@ function findOneDocument(doc, callback) {
   })
 }
 
+function findAllDocuments(callback) {
+  var db = mongoUtil.getDb();
+  db.collection('tag').find({}).toArray(function(err, docs) {
+    assert.equal(null, err);
+    callback(docs);
+  })
+}
+
 module.exports = {
   insertOneDocument,
-  findOneDocument
+  findOneDocument,
+  findAllDocuments
 }

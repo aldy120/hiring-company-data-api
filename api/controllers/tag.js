@@ -36,7 +36,6 @@ function createTag(req, res) {
         });
       });
     })
-
   })
 }
 
@@ -77,8 +76,28 @@ function removeOneTag(req, res) {
   })
 }
 
+function findAllTags(req, res) {
+  tagCol.findAllDocuments(function(tagList) {
+    res.json(tagList);
+  });
+}
+
+function findCompaniesByTag(req, res) {
+  var tagID = req.swagger.params.tag_id.value;
+  if (!isMongoID(tagID)) {
+    res.status(400).json({message: 'tagID is not a valid mongo objectID'});
+    return;
+  }
+  companyInfo.findDocumentsByTagID(new ObjectID(tagID), function(list) {
+    res.json(list)
+  })
+}
+
+
 module.exports = {
   createTag,
   findTags,
-  removeOneTag
+  removeOneTag,
+  findAllTags,
+  findCompaniesByTag
 }
