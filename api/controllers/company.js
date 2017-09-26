@@ -26,6 +26,21 @@ function find(req, res) {
     })
     return;
   }
+  if (filter.tags) {
+    if (filter.tags.length) {
+      var index;
+      if (filter.tags.some((tagID, i) => {
+        index = i;
+        return !isMongoId(tagID)
+      })) {
+        res.status(400).json({message: `tags[${index}] is not a valid mongo objectID`});
+        return;
+      }
+      filter.tags = filter.tags.map(tagID => new ObjectID(tagID));
+    } else {
+      delete filter.tags;
+    }
+  }
   companyInfo.findDocuments(filter, function(doc) {
     res.json(doc);
   });
