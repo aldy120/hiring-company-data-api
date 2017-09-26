@@ -79,6 +79,13 @@ function findDocuments(filter, callback) {
       $regex: escapeRegexp(filter.industry)
     };
   }
+
+  // tags
+  if (filter.tags) {
+    myfilter['tags'] = {
+      $all: filter.tags
+    }
+  }
   
   // send query
   db.collection(col)

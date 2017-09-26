@@ -278,6 +278,10 @@ definitions:
         type: string
       philosophy:
         type: string
+      tags:
+        type: array
+        items:
+          type: string
   TagList:
     type: array
     items:

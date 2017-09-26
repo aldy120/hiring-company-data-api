@@ -259,4 +259,45 @@ describe('Outbound', function() {
         .expect(200, done)
     });
   })
+});
+describe('POST /company/filter', function() {
+  var tagIDgoodCompany = '59c4abf388e9a7258ddbf7b8';
+  var tagIDhot = '59c4a92e401f5424cb58e8b1'
+  var nonexistentID = '59c4a92e401f5424cb58e8b3'
+  it('search by tags', function(done) {
+    request(server)
+      .post('/company/filter')
+      .set('Accept', 'application/json')
+      .send({
+        tags: [
+          tagIDhot
+        ]
+      })
+      .expect(200, done());
+  });
+  it('invalid tagID', function(done) {
+    request(server)
+      .post('/company/filter')
+      .set('Accept', 'application/json')
+      .send({
+        tags: [
+          tagIDhot,
+          nonexistentID,
+          '1111'
+        ]
+      })
+      .expect(400, done);
+  });
+  it('nonexistent tagID', function(done) {
+    request(server) 
+      .post('/company/filter')
+      .set('Accept', 'application/json')
+      .send({
+        tags: [
+          tagIDhot,
+          nonexistentID,
+        ]
+      })
+      .expect(200, done);
+  });
 })
