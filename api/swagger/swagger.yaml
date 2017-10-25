@@ -196,6 +196,22 @@ paths:
           description: Error
           schema: 
             $ref: "#/definitions/ErrorResponse"
+  /tag/{tag_id}:
+    x-swagger-router-controller: tag
+    get:
+      operationId: findTagById
+      description: get a tag by id
+      parameters: 
+        - $ref: "#/parameters/tag_id"
+      responses:
+        "200":
+          description: Success
+          schema: 
+            $ref: "#/definitions/Tag"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /company/area:
     x-swagger-router-controller: area
     get:
@@ -224,6 +240,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  
   /swagger:
     x-swagger-pipe: swagger_raw
 parameters:

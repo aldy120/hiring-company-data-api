@@ -107,7 +107,7 @@ describe('GET /company/tag/{tag_id}', function() {
   });
   it('invalid tagID', function(done) {
     request(server)
-      .get('/company/tag' + '12345678')
+      .get('/company/tag/' + '12345678')
       .set('Accept', 'application/json')
       .expect(400, done);
   });
@@ -116,5 +116,25 @@ describe('GET /company/tag/{tag_id}', function() {
       .get('/company/tag/' + nonExistId)
       .set('Accept', 'application/json')
       .expect(200, done);
+  })
+})
+describe('GET /tag/{tag_id}', function() {
+  it('find tag by id', function(done) {
+    request(server)
+      .get('/tag/' + tagID)
+      .set('Accept', 'application/json')
+      .expect(200, done);
+  })
+  it('invalid tagID', function(done) {
+    request(server)
+      .get('/tag/' + '12345678')
+      .set('Accept', 'application/json')
+      .expect(400, done);
+  });
+  it('nonexistent mongoID', function(done) {
+    request(server)
+      .get('/tag/' + nonExistId)
+      .set('Accept', 'application/json')
+      .expect(404, done);
   })
 })

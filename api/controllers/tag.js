@@ -93,11 +93,22 @@ function findCompaniesByTag(req, res) {
   })
 }
 
+function findTagById(req, res) {
+  var tagId = req.swagger.params.tag_id.value;
+  if (!isMongoID(tagId)) {
+    res.status(400).json({message: 'tagId is not a valid mongo objectID'})
+    return;
+  }
+  tagCol.findOneDocument({_id: new ObjectID(tagId)}, function(doc) {
+    doc ? res.json(doc) : res.status(404).json({message:'Tag not found'})
+  })
+}
 
 module.exports = {
   createTag,
   findTags,
   removeOneTag,
   findAllTags,
-  findCompaniesByTag
+  findCompaniesByTag,
+  findTagById
 }
