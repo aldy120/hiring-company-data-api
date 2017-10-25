@@ -41,21 +41,38 @@ function findDocuments(filter, callback) {
       }
     }
   }
-
-  // employeeLowerBound employeeLowerBound
-  var employeeLowerBound = filter.employeeLowerBound || -1;
-  var employeeUpperBound = filter.employeeUpperBound || Infinity;
-  myfilter['profile.employee'] = {
-    $gte: employeeLowerBound,
-    $lte: employeeUpperBound
+  // employeeLowerBound employeeUpperBound
+  var employeeLowerBound = filter.employeeLowerBound
+  var employeeUpperBound = filter.employeeUpperBound
+  
+  if (employeeLowerBound) {
+    if (!myfilter['profile.employee']) {
+      myfilter['profile.employee'] = {}
+    }
+    myfilter['profile.employee'].$gte = employeeLowerBound;
+  }
+  if (employeeUpperBound) {
+    if (!myfilter['profile.employee']) {
+      myfilter['profile.employee'] = {}
+    }
+    myfilter['profile.employee'].$lte = employeeUpperBound;
   }
 
   // capitalLowerBound capitalLowerBound
-  var capitalLowerBound = filter.capitalLowerBound || -1;
-  var capitalUpperBound = filter.capitalUpperBound || Infinity;
-  myfilter['profile.capital'] = {
-    $gte: capitalLowerBound,
-    $lte: capitalUpperBound
+  
+  var capitalLowerBound = filter.capitalLowerBound;
+  var capitalUpperBound = filter.capitalUpperBound;
+  if (capitalLowerBound) {
+    if (!myfilter['profile.capital']) {
+      myfilter['profile.capital'] = {};
+    }
+    myfilter['profile.capital'].$gte = capitalLowerBound;
+  }
+  if (capitalUpperBound) {
+    if (!myfilter['profile.capital']) {
+      myfilter['profile.capital'] = {}
+    }
+    myfilter['profile.capital'].$lte = capitalUpperBound;
   }
 
   // information service welfare philosophy
@@ -86,7 +103,7 @@ function findDocuments(filter, callback) {
       $all: filter.tags
     }
   }
-  
+  console.log(myfilter);
   // send query
   db.collection(col)
     .find(myfilter)
@@ -99,6 +116,7 @@ function findDocuments(filter, callback) {
     });
 
   function escapeRegexp(text) {
+    
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
   }
 }
