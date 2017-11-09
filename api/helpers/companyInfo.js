@@ -103,7 +103,6 @@ function findDocuments(filter, callback) {
       $all: filter.tags
     }
   }
-  console.log(myfilter);
   // send query
   db.collection(col)
     .find(myfilter)

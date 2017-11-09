@@ -13,11 +13,13 @@
     "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
+    "mocha": "^3.5.3",
     "should": "^7.1.0",
     "supertest": "^1.0.0"
   },
   "scripts": {
     "start": "node app.js",
+    "production": "pm2 start app.js",
     "test": "swagger project test"
   }
 }
