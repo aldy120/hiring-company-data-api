@@ -1,3 +1,5 @@
 apps:
   - script: ./app.js
     name: companyApi
+    env: 
+      PORT: 80
