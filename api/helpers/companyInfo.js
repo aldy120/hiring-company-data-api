@@ -85,11 +85,8 @@ function findDocuments(filter, callback) {
 
   
   // area
-  // if (filter.area) {
-  //   myfilter['profile.address'] = {
-  //     $regex: escapeRegexp(filter.area)
-  //   };
-  // }
+  // filter.area is an array of string, and we want to find
+  // the companies which meet the union of area array.
   if (filter.area) {
     if (!myfilter['$and']) {
       myfilter['$and'] = []
@@ -100,11 +97,8 @@ function findDocuments(filter, callback) {
   }
 
   // industry
-  // if (filter.industry) {
-  //   myfilter['profile.industry'] = {
-  //     $regex: escapeRegexp(filter.industry)
-  //   };
-  // }
+  // filter.industry is an array, and we want to find the companies
+  // which meet the union of industry array.
   if (filter.industry) {
     if (!myfilter['$and']) {
       myfilter['$and'] = []
