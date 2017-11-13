@@ -106,8 +106,8 @@ describe('inbound', function () {
         .send({
           "queryString": "帥哥",
           "fuzzy": true,
-          "area": "大安區",
-          "industry": "餐館業"
+          "area": ["大安區"],
+          "industry": ["餐館業"]
         }).expect(200)
         .end(function (err, res) {
           assert.equal(/大安區/.test(res.body[0].profile.address), true);
@@ -300,4 +300,24 @@ describe('POST /company/filter', function() {
       })
       .expect(200, done);
   });
+  it('Union of area and Union of industry', function(done) {
+    request(server)
+      .post('/company/filter')
+      .set('Accept', 'application/json')
+      .send({
+        "queryString": "誠昌報關有限公司",
+        "area": [
+          "台北",
+          "北市"
+        ],
+        "industry": [
+          "報關",
+          "關業"
+        ]
+      }).expect(200)
+      .end(function(err, res) {
+        assert(res.body.length > 0);
+        done();
+      })
+  })
 })

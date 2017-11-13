@@ -83,18 +83,35 @@ function findDocuments(filter, callback) {
       }
     });
 
+  
   // area
+  // if (filter.area) {
+  //   myfilter['profile.address'] = {
+  //     $regex: escapeRegexp(filter.area)
+  //   };
+  // }
   if (filter.area) {
-    myfilter['profile.address'] = {
-      $regex: escapeRegexp(filter.area)
-    };
+    if (!myfilter['$and']) {
+      myfilter['$and'] = []
+    }
+    myfilter['$and'].push({$or: filter.area.map(x => ({
+      'profile.address': {$regex: escapeRegexp(x)}
+    }))})
   }
 
   // industry
+  // if (filter.industry) {
+  //   myfilter['profile.industry'] = {
+  //     $regex: escapeRegexp(filter.industry)
+  //   };
+  // }
   if (filter.industry) {
-    myfilter['profile.industry'] = {
-      $regex: escapeRegexp(filter.industry)
-    };
+    if (!myfilter['$and']) {
+      myfilter['$and'] = []
+    }
+    myfilter['$and'].push({$or: filter.industry.map(x => ({
+      'profile.industry': {$regex: escapeRegexp(x)}
+    }))})
   }
 
   // tags

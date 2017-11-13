@@ -276,9 +276,13 @@ definitions:
       end:
         type: integer
       area:
-        type: string
+        type: array
+        items:
+          type: string
       industry:
-        type: string
+        type: array
+        items:
+          type: string
       employeeLowerBound:
         type: integer
       employeeUpperBound:
@@ -422,6 +426,11 @@ definitions:
       updateTime:
         description: 更新時間
         type: string
+      tags:
+        description: 標籤
+        type: array
+        items:
+          type: string
   ErrorResponse:
     required:
       - message
