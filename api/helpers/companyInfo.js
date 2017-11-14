@@ -16,11 +16,11 @@ function findDocuments(filter, callback) {
   col = 'companyInfo';
 
   var skip = 0, limit = 10;
-  var begin = filter.begin, end = filter.end;
+  var begin = filter.begin || 0, end = filter.end || 9;
   // if begin and end is valid
-  if (begin > 0 && end > 0 && begin <= end) {
-    skip = filter.begin;
-    limit = filter.end - filter.begin + 1;
+  if (begin >= 0 && end >= 0 && begin <= end) {
+    skip = begin;
+    limit = end - begin + 1;
   }
   var myfilter = {};
 
@@ -87,7 +87,7 @@ function findDocuments(filter, callback) {
   // area
   // filter.area is an array of string, and we want to find
   // the companies which meet the union of area array.
-  if (filter.area) {
+  if (filter.area && filter.area.length) {
     if (!myfilter['$and']) {
       myfilter['$and'] = []
     }
@@ -99,7 +99,7 @@ function findDocuments(filter, callback) {
   // industry
   // filter.industry is an array, and we want to find the companies
   // which meet the union of industry array.
-  if (filter.industry) {
+  if (filter.industry && filter.industry.length) {
     if (!myfilter['$and']) {
       myfilter['$and'] = []
     }

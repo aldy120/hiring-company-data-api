@@ -273,8 +273,10 @@ definitions:
         type: boolean
       begin:
         type: integer
+        default: 0
       end:
         type: integer
+        default: 10
       area:
         type: array
         items:

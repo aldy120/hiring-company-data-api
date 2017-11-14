@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "production": "pm2 start ecosystem.config.yml",
+    "production": "pm2 restart ecosystem.config.yml",
     "test": "swagger project test"
   }
 }

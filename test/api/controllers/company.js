@@ -320,4 +320,18 @@ describe('POST /company/filter', function() {
         done();
       })
   })
+  it('Correct begin and end', function(done) {
+    request(server)
+      .post('/company/filter')
+      .set('Accept', 'application/json')
+      .send({
+        "begin": 1,
+        "end": 3,
+      })
+      .expect(200)
+      .end((err, res) => {
+        assert.equal(res.body.length, 3)
+        done()
+      })
+  })
 })
