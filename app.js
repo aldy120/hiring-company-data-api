@@ -2,8 +2,10 @@
 var mongoUtil = require('./api/helpers/mongoUtil');
 var assert = require('assert');
 var app = require('express')();
+var cors = require('cors')
 module.exports = app; // for testing
 
+app.use(cors())
 
 mongoUtil.connectToServer(function(err) {
   var SwaggerExpress = require('swagger-express-mw');
