@@ -9,7 +9,7 @@ var corsOptions = {
   origin: 'http://example.com',
   optionsSuccessStatus: 200
 }
-app.use(cors())
+app.use(cors(corsOptions))
 
 mongoUtil.connectToServer(function(err) {
   var SwaggerExpress = require('swagger-express-mw');
