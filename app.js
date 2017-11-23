@@ -5,10 +5,7 @@ var app = require('express')();
 var cors = require('cors')
 module.exports = app; // for testing
 
-var corsOptions = {
-  origin: 'http://example.com'
-}
-app.use(cors(corsOptions))
+app.use(cors())
 
 mongoUtil.connectToServer(function(err) {
   var SwaggerExpress = require('swagger-express-mw');
