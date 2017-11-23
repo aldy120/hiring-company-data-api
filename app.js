@@ -6,8 +6,7 @@ var cors = require('cors')
 module.exports = app; // for testing
 
 var corsOptions = {
-  origin: 'http://example.com',
-  optionsSuccessStatus: 200
+  origin: 'http://example.com'
 }
 app.use(cors(corsOptions))
 
