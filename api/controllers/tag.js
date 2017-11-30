@@ -88,7 +88,23 @@ function findCompaniesByTag(req, res) {
     res.status(400).json({message: 'tagID is not a valid mongo objectID'});
     return;
   }
-  companyInfo.findDocumentsByTagID(new ObjectID(tagID), function(list) {
+  var begin = req.swagger.params.begin.value
+  var end = req.swagger.params.end.value
+  if (begin < 0) {
+    res.status(400).json({message: 'begin must be positive integer'})
+    return
+  }
+  if (end < 0) {
+    res.status(400).json({message: 'end must be positive integer'})
+    return
+  }
+  if (begin > end) {
+    res.status(400).json({message: 'begin must be less or equal than end'})
+    return
+  }
+  skip = begin
+  limit = end - begin + 1
+  companyInfo.findDocumentsByTagID(new ObjectID(tagID), skip, limit, function(list) {
     res.json(list)
   })
 }

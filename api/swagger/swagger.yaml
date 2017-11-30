@@ -187,6 +187,16 @@ paths:
       description: get a list of company by tag
       parameters:
         - $ref: "#/parameters/tag_id"
+        - name: begin
+          in: query
+          description: The minimum index of query
+          type: integer
+          default: 0
+        - name: end
+          in: query
+          description: The maximum index of query
+          type: integer
+          default: 0
       responses:
         "200": 
           description: Success

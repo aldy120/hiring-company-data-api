@@ -196,12 +196,13 @@ function removeOneTag(companyID, tagID, callback) {
   });
 }
 
-function findDocumentsByTagID(tagID, callback) {
+function findDocumentsByTagID(tagID, skip, limit, callback) {
   var db = mongoUtil.getDb();
   var filter = {
     tags: tagID
   }
-  db.collection('companyInfo').find(filter).toArray(function(err, list) {
+
+  db.collection('companyInfo').find(filter).skip(skip).limit(limit).toArray(function(err, list) {
     assert.equal(null, err);
     callback(list)
   })

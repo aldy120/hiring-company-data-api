@@ -117,6 +117,24 @@ describe('GET /company/tag/{tag_id}', function() {
       .set('Accept', 'application/json')
       .expect(200, done);
   })
+  it('begin is negative', function(done) {
+    request(server)
+      .get(`/company/tag/${tagID}?begin=-1&end=1`)
+      .set('Accept', 'application/json')
+      .expect(400, done)
+  })
+  it('end is negative', function(done) {
+    request(server)
+      .get(`/company/tag/${tagID}?begin=1&end=-1`)
+      .set('Accept', 'application/json')
+      .expect(400, done)
+  })
+  it('begin is greater than end', function(done) {
+    request(server)
+      .get(`/company/tag/${tagID}?begin=4&end=1`)
+      .set('Accept', 'application/json')
+      .expect(400, done)
+  })
 })
 describe('GET /tag/{tag_id}', function() {
   it('find tag by id', function(done) {
