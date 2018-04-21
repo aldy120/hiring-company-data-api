@@ -36,6 +36,7 @@ npm i
 swagger project start
 ```
 ## Testing
+資料庫有設定 IP White List，請先確認是否加入名單。
 ```
 npm test
 ```
